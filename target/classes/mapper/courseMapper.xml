@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.mini.dao.CourseDAO">
+   <!-- 
+   <select id="courseSelectPaging" resultType="com.ict.mini.vo.CourseVO">
+      select news_no, subject, userid, hit, date_format(writedate, '%Y-%m-%d %H:%i') writedate, thumb
+      from course
+      <if test="searchWord != null and searchWord != ''">
+         where ${searchKey} like '%${searchWord}%'
+      </if>
+      order by news_no desc
+      limit ${onePageRecord} offset ${offset}
+   </select>
+    -->
+   <select id="courseSelectPaging" resultType="com.ict.mini.vo.CourseVO">
+      select news_no, subject, thumb, hit, writedate, reply_count,ip,userid
+	  from course
+	  where 1=1
+	     <!-- 검색어 조건 -->
+	     <choose>
+              <when test="searchKey == 'subject' and searchWord != ''">
+                  and subject like concat('%', #{searchWord}, '%')
+              </when>
+              <when test="searchKey == 'content' and searchWord != ''">
+                  and content like concat('%', #{searchWord}, '%')
+              </when>
+              <when test="searchKey == 'userid' and searchWord != ''">
+                  and userid like concat('%', #{searchWord}, '%')
+              </when>
+              <otherwise>
+                  <!-- No search key, no filter applied -->
+              </otherwise>
+          </choose>
+	     <!-- 일정 필터 -->
+	     <if test="schedule != null and schedule != '' and schedule != '전체'">
+	        and schedule = #{schedule}
+	     </if>
+	  <!-- 정렬 조건 -->
+	  <choose>
+	     <when test="sort == 'newest'">
+	        ORDER BY writedate DESC
+	     </when>
+	     <when test="sort == 'viewCount'">
+	        ORDER BY hit DESC
+	     </when>
+	     <otherwise>
+	        ORDER BY writedate DESC
+	     </otherwise>
+	  </choose>
+	  limit #{onePageRecord} offset #{offset}
+   </select>
+   
+   <select id="totalRecord" resultType="int">
+      select count(news_no) from course
+      <choose>
+            <when test="searchKey == 'subject' and searchWord != ''">
+                where subject like concat('%', #{searchWord}, '%')
+            </when>
+            <when test="searchKey == 'content' and searchWord != ''">
+                where content like concat('%', #{searchWord}, '%')
+            </when>
+            <when test="searchKey == 'userid' and searchWord != ''">
+                where userid like concat('%', #{searchWord}, '%')
+            </when>
+            <otherwise>
+                <!-- No search key, no filter applied -->
+            </otherwise>
+        </choose>
+   </select>
+   
+   <insert id="courseInsert">
+      insert into course(subject, content, userid, ip, thumb, schedule)
+      values(#{subject},#{content},#{userid}, #{ip}, #{thumb}, #{schedule})
+   </insert>
+   
+   <select id="courseSelect" resultType="com.ict.mini.vo.CourseVO">
+      select news_no, subject, content, hit, writedate, userid, thumb, schedule, reply_count
+      from course
+      where news_no = ${param1}
+   </select>
+   
+   <update id="hitCount">
+      update course set hit=hit+1 
+      where news_no=${param1}    
+   </update>
+   
+   <update id="courseUpdate">
+      update course set subject=#{subject}, content=#{content}, schedule=#{schedule}
+      where news_no=#{news_no} and userid=#{userid}
+   </update>
+   
+   <delete id="courseDelete">
+      delete from course
+      where news_no=${param1} and userid=#{param2}
+   </delete>
+   
+   <update id="updateReplyCount" parameterType="int">
+   		update course c
+		set c.reply_count = 
+		(select count(reply_no)
+		from reply_course
+		where news_no=${param1})
+		where c.news_no=${param1}
+   </update>
+   <select id="cSelectAll" resultType="com.ict.mini.vo.CourseVO">
+   	select news_no,subject,content,userid,writedate,hit,reply_count,ip
+   	 from course 
+   </select>
+   <delete id="cOneDel">
+   		delete from course where news_no=${param1}
+   </delete>
+   <delete id="delClist">
+   	delete from course where news_no in
+   	  <foreach item="DelClist" collection="list" open="(" separator="," close=")">
+	        #{DelClist}
+	    </foreach>
+   </delete>
+    <select id="getUserCourses"  resultType="com.ict.mini.vo.CourseVO">
+        select * from course
+        where userid = #{userid}
+    </select>
+   
+</mapper>

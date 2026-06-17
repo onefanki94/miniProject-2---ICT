@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ict.mini.dao.MemberDAO">
+  <select id="loginOk" resultType="com.ict.mini.vo.MemberVO">
+       select userid, username from user_tbl
+       where userid=#{userid} and userpwd=#{userpwd}
+  </select>
+   <select id="idDoubleCheck" resultType="int">
+        select count(userid) from user_tbl where userid=#{param1} 
+  </select>
+  <insert id="memberInsert">
+     insert into user_tbl(userid, userpwd, username, email, tel, zipcode, addr, addrdetail)
+     values(#{userid},#{userpwd},#{username},#{email},#{tel},#{zipcode},#{addr},#{addrdetail})
+  </insert>
+  <select id="memberSelect" resultType="com.ict.mini.vo.MemberVO">
+     select userid, username, email, tel, zipcode, addr, addrdetail
+     from user_tbl where userid=#{param1}
+  </select>
+  <update id="memberUpdate">
+     update user_tbl set email=#{email}, tel=#{tel}, zipcode=#{zipcode}, addr=#{addr}, addrdetail=#{addrdetail}
+   where userid=#{userid} and userpwd=#{userpwd}
+  </update>
+ <delete id="unjoins" >
+    delete from user_tbl where userid =#{param1}
+ </delete>
+ <select id="findMemberByEmailAndName" parameterType="map" resultType="com.ict.mini.vo.MemberVO">
+        select * from user_tbl
+       where email = #{email} and username = #{username}
+</select>
+
+<select id="checkUserIdExists" parameterType="String" resultType="boolean">
+        select count(*) > 0
+        from user_tbl
+        where userid = #{userid}
+</select>
+
+    <!-- 이름과 전화번호가 일치하는지 확인하는 쿼리 -->
+<select id="checkUsernameAndTel" parameterType="map" resultType="boolean">
+    select count(*) from user_tbl
+    where username = #{username} and tel = #{tel}
+</select>
+
+    <!-- 비밀번호를 업데이트하는 쿼리 -->
+<update id="updatePassword">
+        update user_tbl
+        set userpwd = #{param1}
+        where userid = #{param2}
+</update>
+<select id="findUserid" resultType="String">
+   select userid from user_tbl
+   where username=#{username} and tel=#{tel}
+</select>
+<select id="memSelectAll" resultType="com.ict.mini.vo.MemberVO">
+	select userid,username,email,tel,addr,addrdetail,writedate from user_tbl  where userid !='root' order by writedate LIMIT #{offset}, #{onePageRecord};
+</select>
+<delete id='delOneUser'>
+	delete from user_tbl where userid= #{param1}
+</delete>
+<delete id="delUsers" parameterType="list">
+    DELETE FROM user_tbl
+    WHERE userid IN
+    <foreach item="userId" collection="list" open="(" separator="," close=")">
+        #{userId}
+    </foreach>
+</delete>
+<select id="totalmem" resultType="int">
+	select count(userid)from user_tbl  
+</select>
+<select id="getUserimg" resultType="String">
+	select userimgfile from user_tbl where userid=#{param1}
+</select>
+   </mapper>

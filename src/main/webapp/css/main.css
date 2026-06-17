@@ -1,0 +1,252 @@
+@charset "UTF-8";
+
+* {
+       font-family: "Noto Sans KR", sans-serif;
+       scroll-behavior: smooth;
+      }
+#bannerImgBox{
+      width: 100%;
+      height: 1100px;
+      overflow: hidden;
+      margin: 0 auto;
+      background-image: url('/mini/images/main/송정.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+
+ }
+
+ #locationBox{
+    text-align: center;
+    margin-top: 400px;
+ }
+ 
+   .contentAll{
+          margin-top: 50px;
+          width: 80%;
+          margin: 0 auto;
+       }
+
+    #contentTitle1, #contentTitle2, #contentTitle3, #contentTitle4, #contentTitle5, #contentTitle6{
+       margin-top: 50px;
+       margin-bottom: 50px;
+    }
+    .class2{
+       width:300px;
+       height: 250px;
+       background-color: #c79288;
+       margin: 20px;
+       border-radius: 10px;
+       text-align: center;
+    }
+    .class2 img{
+       width:100%;
+       height: 100%;
+       object-fit: cover;
+       border-radius: 10px;
+    }
+    .postername{
+       font-weight: bold;
+       font-size: 12pt;
+    }
+    /* 메인축제 포스터 글자조정 */
+.class2>a{
+   text-decoration: none; color:black;
+}
+
+.class3{
+   width:300px;
+   height: 270px;
+   background-color: #c79288;
+   margin: 20px;
+   border-radius: 10px;
+   text-align: center;
+}
+.class3 img{
+   width:100%;
+   height:100%;
+   border-radius: 10px;
+   object-fit: cover;
+}
+/* 메인맛집 포스터 글자조정 */
+      .class3>a{
+      text-decoration: none; color:black;
+      }
+      .variable-width{
+         width: 200px;
+         height: 250px;
+        
+      }
+     
+   .hitFestivalContent{
+         width: 220px;
+         height: 320px;
+         background-color: #c79288;
+         float: left;
+         margin: 15px;
+         margin-top: 20px;
+         
+         border-radius: 10px;
+      }
+   .hitFestivalContent img{
+         width:100%;
+         height:100%;
+         object-fit: cover;
+         border-radius: 10px;
+         margin-bottom: 20px;
+      }
+       #hitFestivalBox{
+         width: 1400px;
+         height: 400px;
+         text-align: center;
+         float: left;
+         
+      }
+      .hitFestivalContent h5{
+         width: 200px;
+         text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      #bgImg{
+         width:100%;
+         height:400px;
+         background-image: url('/mini/images/main/축제55.png');
+         background-repeat: no-repeat;
+         background-position: center;
+      }
+      #bgImg2{
+         width:100%;
+         height:500px;
+         background-image: url('mini/images/main/음식배경.png');
+         background-repeat: no-repeat;
+         background-position: right;
+      }
+      #hitFoodBox{
+         margin-left: 70px;
+         width: 100%;
+         height: 350px;
+      }
+      .hitFood{
+         width: 320px;
+         height: 300px;
+         border-radius: 10px;
+         background-color: #c79288;
+         font-size: 60pt;
+         margin: 20px;
+         margin-top: 50px;
+         float: left;
+         text-align: center;
+      }
+      .hitFood img{
+         width:100%;
+         height:100%;
+         object-fit: cover;
+         border-radius: 10px;
+         margin-bottom: 20px;
+      }
+      .hitFood span{
+         position: absolute;
+          z-index: 1;
+      }
+      .hiFood h4{
+         font-size:16pt;
+         font-weight: bold;
+
+      }
+ 
+      #mainbody #test{
+         margin-left:39%;
+         width:500px;
+         height:auto;
+         position: absolute;
+         display:none;
+         margin-top:-370px;
+      }
+   #mainbody #test .busanbutton{
+         width:90px;
+         height:50px;
+         margin:5px;
+         border-radius:5px;
+      }
+      
+      
+/* 부산해양지수 */
+      #marineIndex{
+      width: 50%; height: 600px;
+     
+      }
+      #siteList{
+      width:100%;
+      display: flex;
+      margin-top: 80px;
+      }
+      #siteList>div{
+       
+         padding-left:10px; 
+         margin-top:40px;
+         
+      }
+#siteList>div #pago{
+   color:white;
+   background-color: #2D72E1;
+   margin-left:5%;
+   display: inline-block; 
+   
+  }
+#siteList>div #suon{
+   color:white;
+   background-color: #0A5099;
+   margin-left:5%;
+   display: inline-block; 
+
+  }
+ #siteList>div #waterhight,#siteList>div #watertemp{
+    margin-left:5%;
+    font-size: 14px;
+ }
+ #siteList>div>h4{
+ text-align: center; padding-top:40px;
+ }
+ #siteList>div .site{
+ margin-bottom: 10px;
+ margin-top: 20px;
+ }
+ 
+ 
+ /* 부산날씨 */
+ #busanweather{
+ width:700px; 
+ 
+ }
+  #busanweather #nowweather{
+     margin:0;
+     padding:0;
+     display: flex;
+     margin-left: 50px;
+     
+  }
+  #busanweather #nowweather>div{
+     width: 33%;
+  }
+  #busanweather .weatherimg>img{
+     height: 100%;
+
+  }
+  #busanweather .weatherdata{
+
+  display: inline-block; 
+  height: 100%;
+  font-weight: bold;
+  font-size: 1.3em;
+  
+  }
+  #buttonContainer{
+     margin-left:15px;
+  }
+  #buttonContainer>button{
+     width: 16%;
+     border: none;
+     background-color: white;
+  
+  }
+  

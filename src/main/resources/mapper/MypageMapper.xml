@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ict.mini.dao.MypageDAO">
+  	<select id="myinquiry" resultType="com.ict.mini.vo.InquiryVO">
+  		select userid,subject,content,`Ok`,writedate,`index` from inquiry where userid=#{userid} order by `index` desc LIMIT #{pVO.offset}, #{pVO.onePageRecord};
+  	</select>
+  	<select id="totalmyinquiry" resultType="int">
+  		select count(`index`)from inquiry where userid =#{param2}
+  	
+  	</select>
+  	<insert id="qnaWrite">
+  		insert into inquiry(userid,subject,content)values(#{userid},#{subject},#{content})
+  	</insert>
+  	<select id="selectoneqna" resultType="com.ict.mini.vo.InquiryVO">
+  		select subject,content ,`index`from inquiry where `index`=#{param1}
+  	</select>
+  	<insert id='answerWrite'>
+  		insert into answer(content,`index`) values(#{content},#{index})
+  	</insert>
+  	<select id='selectAnswer' resultType="com.ict.mini.vo.AnswerVO">
+  		select content,writedate from answer where `index`=#{param1}
+  	</select>
+  	<update id="editResult">
+  		update answer set content=#{content} where `index`=#{index}
+  	</update>
+  	<update id="answerset">
+  		update inquiry set `Ok`=1 where `index`=#{index}
+  	</update>
+  	<update id="updateUserProfileImage">
+  		update user_tbl set userimgfile=#{param2} where userid=#{param1}
+  	</update>
+  </mapper>

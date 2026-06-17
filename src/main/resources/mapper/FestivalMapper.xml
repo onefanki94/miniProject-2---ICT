@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.mini.dao.FestivalDAO">
+      <select id="dataSelectAll" resultType="com.ict.mini.vo.FestivalVO"> 
+      select no, title, date_format(start_date, '%Y-%m-%d')start_date, 
+         date_format(end_date, '%Y-%m-%d')end_date, 
+         addrdetails, poster, status, lat, lon, hit, `likes`
+      from festival_tbl 
+   <choose>
+        <when test="sortBy == 'like'">
+            ORDER BY `likes` DESC
+        </when>
+        <when test="sortBy == 'date'">
+            ORDER BY start_date ASC
+        </when>
+        <otherwise>
+            ORDER BY hit DESC
+        </otherwise>
+    </choose>
+   </select>
+
+<insert id="addLike">
+        insert into likes_festival (userid, no) values (#{userid}, #{no})
+    </insert>
+     <delete id="removeLike">
+        delete from likes_festival where userid = #{userid} and no = #{no}
+    </delete>
+        <select id="checkIfUserLiked" resultType="boolean">
+        select count(*) from likes_festival where userid = #{userid} and no = #{no}
+    </select>
+    <select id="getLikeCount" resultType="int">
+        select count(*) from likes_festival where no = #{no}
+    </select>
+    
+     
+ <select id="getUserLikedRestCodes" resultType="int">
+    select f.no, f.title, f.likes from likes_festival lf inner join festival_tbl f on lf.no = f.no where lf.userid = #{param1} 
+</select>
+
+    <select id="selectLikeCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM likes_restaurant WHERE no = #{no} AND likes = 1
+    </select>
+
+    <select id="getUserLikes" parameterType="string" resultType="com.ict.mini.vo.Like2VO">
+      SELECT * FROM likes_restaurant WHERE userid = #{userid}
+    </select>
+    <select id="SelectAll" resultType="com.ict.mini.vo.FestivalVO"> 
+      select no, addr,title, date_format(start_date, '%Y-%m-%d')start_date, 
+         date_format(end_date, '%Y-%m-%d')end_date, 
+         addrdetails, poster, status, lat, lon, hit, likes
+      from festival_tbl LIMIT #{offset}, #{onePageRecord};
+   </select>
+
+   <!-- 축제 추가 -->
+   <insert id="dataInsert" parameterType="com.ict.mini.vo.FestivalVO" useGeneratedKeys="true" keyProperty="no"> 
+      insert into festival_tbl(title, start_date, end_date, addrdetails, poster, status, lat, lon, hit, likes) 
+      values(#{title}, #{start_date}, #{end_date}, #{addrdetails}, #{poster}, #{status}, #{lat}, #{lon}, #{hit}, #{likes}) 
+   </insert>
+   <!-- 특정 ID에 해당하는 축제 정보 가져오기 -->
+    <select id="getFestivalById" parameterType="int" resultType="com.ict.mini.vo.FestivalVO">
+        SELECT no, title, date_format(start_date, '%Y-%m-%d')start_date, 
+               date_format(end_date, '%Y-%m-%d')end_date, 
+               addrdetails, addr, poster, status , content, host, tel, environment, lat, lon, hit, likes 
+        FROM festival_tbl 
+        WHERE no = #{no}
+    </select>
+    
+
+    <!-- 환경 필터에 맞는 데이터 가져오기 -->
+    <select id="calDataSelect" resultType="com.ict.mini.vo.FestivalVO">
+      select no, title, date_format(start_date,'%Y-%m-%d') start_date, date_format(end_date, '%Y-%m-%d') end_date, addrdetails, poster, status
+      from festival_tbl 
+      where  #{param1} >= date_format(start_date, '%Y-%m-%d') 
+        and date_format(end_date, '%Y-%m-%d') >= #{param1} 
+      order by environment = #{param2} desc
+    </select>
+
+    <select id="calDataSelect2" resultType="com.ict.mini.vo.FestivalVO">
+      select no, title, date_format(start_date,'%Y-%m-%d') start_date, date_format(end_date, '%Y-%m-%d') end_date, addrdetails, poster, status
+      from festival_tbl 
+      where #{param1} >= date_format(start_date, '%Y-%m-%d') 
+        and date_format(end_date, '%Y-%m-%d') >= #{param1}
+    </select>
+
+   <!-- 주소로 축제 검색 -->
+   <select id="festivalAddrSelect" resultType="com.ict.mini.vo.FestivalVO">
+      select no, poster, title from festival_tbl 
+      where substring(addrdetails,7) = #{param1}
+   </select>
+
+   <!-- 좋아요 순으로 상위 4개 축제 가져오기 -->
+   <select id="festivalTop4" resultType="com.ict.mini.vo.FestivalVO">
+      select no, title, hit, likes, poster 
+      from festival_tbl 
+      order by likes desc limit 4
+   </select>
+
+   <!-- 현재 진행 중인 축제만 조회 -->
+    <select id="getOngoingFestivals" resultType="com.ict.mini.vo.FestivalVO">
+       select no, title, date_format(start_date, '%Y-%m-%d') start_date, 
+			date_format(end_date, '%Y-%m-%d') end_date, 
+			addrdetails, poster, status, lat, lon, hit, likes
+		from festival_tbl  
+        WHERE CURRENT_DATE BETWEEN start_date AND end_date
+        LIMIT 4
+    </select>
+
+   <!-- 좋아요 개수 증가 -->
+    <update id="incrementLikeCount" parameterType="int">
+       UPDATE festival_tbl
+       SET likes = likes + 1
+       WHERE no = #{no}
+   </update>
+
+   <!-- 좋아요 개수 감소 -->
+   <update id="decrementLikeCount" parameterType="int">
+        UPDATE festival_tbl
+        SET likes = likes - 1
+        WHERE no = #{no}
+    </update>
+
+   <!-- 조회수 증가 -->
+    <update id="incrementHitCount" parameterType="int">
+       UPDATE festival_tbl
+       SET hit = hit + 1
+       WHERE no = #{no}
+   </update>
+
+   <!-- 페이징된 게시물 가져오기 -->
+   <select id="bbsSelectPaging" resultType="com.ict.mini.vo.FestivalVO">
+		select no, title, date_format(start_date, '%Y-%m-%d') start_date, 
+			date_format(end_date, '%Y-%m-%d') end_date, 
+			addrdetails, poster, status, lat, lon, hit, likes
+		from festival_tbl 
+		<if test="searchWord != null and searchWord != ''">
+			where ${searchKey} like '%${searchWord}%'
+		</if>
+		order by review_no desc
+		limit ${onePageRecord} offset ${offset}
+	</select>
+<select id="getLikedFestivals" resultType="com.ict.mini.vo.FestivalVO">
+        SELECT * FROM festival_tbl 
+        WHERE no IN (
+            SELECT no FROM likes_festival WHERE userid = #{userid}
+        )
+    </select>
+   <!-- 전체 레코드 수 가져오기 -->
+	<select id="totalRecord" resultType="int">
+		select count(no) from festival_tbl
+		<if test="searchWord != null and searchWord != ''">
+			where ${searchKey} like '%${searchWord}%'
+		</if>
+	</select>
+
+   <!-- 특정 레코드 삭제 -->
+   <delete id="delOneList">
+   	delete from festival_tbl 
+   	where no = ${no}
+   </delete>
+
+   <!-- 여러 레코드 삭제 -->
+   <delete id="delLists" parameterType="list">
+    DELETE FROM festival_tbl
+    WHERE no IN
+    <foreach item="No" collection="list" open="(" separator="," close=")">
+        #{No}
+    </foreach>
+   </delete>
+
+   <!-- 총 축제 개수 가져오기 -->
+	<select id="totalfestival" resultType="int">
+		select count(no) from festival_tbl
+	</select>
+
+   <!-- 모든 축제 정보 가져오기 (페이징 없음) -->
+	<select id="SelectAllnopaging" resultType="com.ict.mini.vo.FestivalVO"> 
+      select no, addr, title, date_format(start_date, '%Y-%m-%d') start_date, 
+         date_format(end_date, '%Y-%m-%d') end_date, 
+         addrdetails, poster, status, lat, lon, hit, likes
+      from festival_tbl
+   </select>
+
+
+   <!-- 전체 축제 레코드 수 가져오기 -->
+	<select id="getFestivalCount" resultType="int">
+		select count(no) from festival_tbl
+	</select>
+
+   <!-- 페이징된 축제 리스트 가져오기 -->
+	<select id="getPagedFestivalList" parameterType="com.ict.mini.vo.PagingVO" resultType="com.ict.mini.vo.FestivalVO">
+        select no, title, date_format(start_date, '%Y-%m-%d')start_date, 
+         date_format(end_date, '%Y-%m-%d')end_date, 
+         addrdetails, poster, status, lat, lon, hit, `likes`
+      from festival_tbl 
+    <choose>
+        <when test="sort == 'hit'">
+            ORDER BY hit DESC
+        </when>
+        <when test="sort == 'likes'">
+            ORDER BY likes DESC
+        </when>
+        <when test="sort == 'date'">
+            ORDER BY 
+           CASE 
+               WHEN end_date >= CURRENT_DATE THEN 0
+               ELSE 1
+           END, 
+           start_date ASC
+        </when>
+        
+        <otherwise>
+            ORDER BY start_date DESC
+        </otherwise>
+    </choose>
+    LIMIT #{offset}, #{onePageRecord}
+	</select>
+	<insert id="reviewInsert">
+      insert into review_festival(festival_no, userid, contents, rating)
+      values(${festival_no}, #{userid}, #{contents}, #{rating})
+   </insert>
+   <select id="reviewSelectList" resultType="com.ict.mini.vo.FestivalReviewVO">
+      select review_no, festival_no, userid, contents, writedate, rating
+      from review_festival 
+      where festival_no=${param1}
+      order by review_no asc
+   </select>
+   <update id="reviewUpdate">
+       UPDATE review_festival
+       SET contents = #{contents}, 
+           rating = #{rating}
+       WHERE review_no = #{review_no} 
+         AND userid = #{userid} 
+         AND festival_no = #{festival_no}
+   </update>
+   <delete id="reviewDelete">
+      delete from review_festival where review_no=${param1} and userid=#{param2}
+   </delete>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.mini.dao.RootPageDAO">
+ 	<select id="Allinquiry" resultType="com.ict.mini.vo.InquiryVO">
+  		select userid,subject,content,`Ok`,writedate,`index` 
+  		from inquiry   order by `index` desc LIMIT #{offset}, #{onePageRecord};
+  	</select>
+  	<select id="totalAllinquiry" resultType="int">
+  		select count(`index`)from inquiry 
+  	</select>
+
+</mapper>

@@ -1,0 +1,302 @@
+@charset "UTF-8";
+
+#festivalView {
+    position: relative;
+    overflow: hidden;
+}
+#festivalView .container {
+	max-width: 1250px;
+	margin: 0 auto; 
+	padding: 0 20px 20px 20px;
+	box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+}
+#festivalView .topImg{
+	width: 100%;
+    overflow: hidden; 
+    position: relative;
+}
+#festivalView .topImg img {
+    width: 100%;
+    height: auto;
+    object-fit: block;
+}
+#festivalView .ongoing {
+    background-color: red;
+    color: white;
+    width: 100px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    border-radius: 0.7em;
+}
+#festivalView .upcoming {
+	background-color: purple;
+    color: white;
+    width: 100px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    border-radius: 0.7em;
+}
+#festivalView .finished {
+    background-color: gray;
+    color: white;
+    width: 100px;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    border-radius: 0.7em;
+}
+#festivalView .like_hit  {
+    display: flex; /* 수평 정렬을 위해 inline-flex 사용 */
+    align-items: center; /* 수직 정렬 */
+    gap: 10px; /* 요소 간 간격 조정 */
+}
+
+#festivalView .heart {
+    font-size: 20px; /* 버튼 크기 조정 */
+    cursor: pointer; /* 커서 스타일 변경 */
+    color: gray; /* 초기 색상 */
+    transition: color 0.3s ease; /* 색상 변경 애니메이션 */
+}
+
+#festivalView .heart.favorited {
+    color: red; /* 찜하기 상태 색상 */
+}
+#festivalView .middleDetail .icon{
+	width:30px;
+	height:30px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+#festivalView .middleContainer {
+    display: flex;
+    padding-top: 50px;
+    align-items: center;
+    padding-bottom: 50px;
+}
+#festivalView .details,
+#festivalView .ongoingFestivalsList,
+#festivalView .map{
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+#festivalView .middleDetail p {
+    margin: 40px 0;
+    font-size:1.2em;
+    font-weight: bold;
+    color: #2F4F4F;
+}
+#festivalView .middleDetail{
+	padding-left: 50px
+}
+#festivalView .details{
+	font-weight: bold;
+	
+}
+#festivalView .content{
+	color: #708090;
+	line-height: 2; 
+	padding-bottom: 50px;
+}
+#festivalView .topImg {
+    height: 700px; /* 높이를 700px로 설정 */
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+    position: relative; /* 자식 요소의 절대 위치를 조정할 수 있게 설정 */
+}
+#festivalView h2{
+	color: #2F4F4F;
+	font-size:1.3em;
+	font-weight: bold;
+	padding-top: 30px;
+}
+#ongoingFestivalsList .ongoingFestival {
+    border-radius: 1em;
+    width: 260px;
+    height: 280px;
+    overflow: hidden; /* 자식 요소가 부모 요소의 크기를 넘어가지 않도록 설정 */
+    margin: 0 10px 20px; /* 리스트 간의 간격 설정 */
+}
+
+#ongoingFestivalsList .ongoingFestival img {
+    width: 100%;
+    height: 180px;
+    border-radius: 1em;
+    object-fit: cover; /* 이미지가 영역에 맞춰 잘리거나 확장되도록 설정 */
+}
+
+#ongoingFestivalsList .festivalDetail {
+    width: auto;
+    height: auto;
+    padding: 10px 20px;
+}
+
+#ongoingFestivalsList .detail {
+    color: gray;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 10px 0; /* 상하 여백 설정 */
+}
+#ongoingFestivalsList .festivalDetail h3 {
+    margin: 5px 0;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+#ongoingFestivalsList .ongoingFestival a {
+    text-decoration: none;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    color: inherit; /* 링크 색상 상속 */
+}
+#ongoingFestivalsList{
+	max-width: 1200px;
+	margin: 0 auto; 
+	padding: 20px;
+	box-sizing: border-box;
+    display: flex;
+    flex-direction: row; /* 한 줄로 배치 */
+    flex-wrap: nowrap; /* 한 줄로 유지 */
+    gap: 20px; /* 각 div 사이의 간격 */
+    justify-content: center; 
+}
+#popularRestaurantsList .restaurantItem {
+    border-radius: 1em;
+    width: 260px;
+    height: 280px;
+    overflow: hidden; /* 자식 요소가 부모 요소의 크기를 넘어가지 않도록 설정 */
+    margin: 0 10px 20px; /* 리스트 간의 간격 설정 */
+}
+
+#popularRestaurantsList .restaurantItem img {
+    width: 100%;
+    height: 180px;
+    border-radius: 1em;
+    object-fit: cover; /* 이미지가 영역에 맞춰 잘리거나 확장되도록 설정 */
+}
+
+#popularRestaurantsList .restaurantDetail {
+    width: auto;
+    height: auto;
+    padding: 10px 20px;
+}
+#popularRestaurantsList .detail {
+    color: gray;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 10px 0; /* 상하 여백 설정 */
+}
+#popularRestaurantsList .restaurantDetail h3 {
+    margin: 5px 0;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+#popularRestaurantsList .restaurantItem a {
+    text-decoration: none;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    color: inherit; /* 링크 색상 상속 */
+}
+#popularRestaurantsList{
+	max-width: 1200px;
+	margin: 0 auto; 
+	padding: 20px;
+	box-sizing: border-box;
+    display: flex;
+    flex-direction: row; /* 한 줄로 배치 */
+    flex-wrap: nowrap; /* 한 줄로 유지 */
+    gap: 20px; /* 각 div 사이의 간격 */
+    justify-content: center; 
+}
+/* 리뷰 작성 폼 스타일 */
+.review-form {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.review-form h3 {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.review-form .form-group {
+    margin-bottom: 10px;
+}
+
+.review-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.review-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.review-form button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.review-form button:hover {
+    background-color: #218838;
+}
+#reviewForm .rating {
+    display: flex;
+    flex-direction: row; /* 별들이 가로로 나열되도록 */
+    justify-content: flex-start; /* 별들을 왼쪽으로 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 5px; /* 별 사이의 간격 */
+    width: auto; /* 가로폭을 자동으로 설정 */
+}
+
+#reviewForm .star {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#reviewForm .star-icon {
+    font-size: 24px;
+    color: #d3d3d3; /* 기본 별 색상 (회색) */
+}
+
+#reviewForm input[type="radio"] {
+    display: none; /* 라디오 버튼 숨기기 */
+}
+
+#reviewForm input[type="radio"]:checked ~ .star-icon {
+    color: #ffcc00; /* 선택된 별 색상 (노란색) */
+}
+
+#reviewForm input[type="radio"]:checked ~ .star-icon ~ .star-icon {
+    color: #ffcc00; /* 이전 별들도 색상 변경 */
+}

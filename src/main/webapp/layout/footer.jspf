@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="/mini/css/footer.css" type="text/css"/>
+<%
+    Boolean excludeFooter = (Boolean) request.getAttribute("excludeFooter");
+    if (excludeFooter == null || !excludeFooter) {
+%>
+  
+
+   <footer>
+      <div class="inner">
+        <div class="footer-message">부산의 축제와 맛집을 소개하는 웹사이트</div>
+        <div class="footer-contact">컨택: ict@google.com</div>
+        <div class="footer-copyright">Copyright 2024 All ⓒ rights reserved</div>
+      </div>
+    </footer>
+</body>
+
+</html>
+<%
+    }
+%>

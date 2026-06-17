@@ -1,0 +1,81 @@
+@charset "EUC-KR";
+#festlvalList .banner {
+    height: 600px;
+    overflow: hidden; 
+    justify-content: center;
+
+}
+#festlvalList .banner img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+#festlvalList .sort-buttons {
+    display: flex;
+    justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
+
+    width: 1200px;
+    margin: 0 auto; 
+	padding: 20px 45px 0px 45px;
+}
+#festlvalList .sort-buttons a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #2F4F4F;
+    font-weight: bold;
+}
+#festlvalList .sort-buttons a.selected {
+    color: purple; /* 선택된 정렬 기준을 빨간색으로 표시 */
+}        
+#festlvalList .container {
+	max-width: 1200px;
+	margin: 0 auto; 
+	padding: 20px;
+	box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 각 div 사이의 간격 */
+    justify-content: center; 
+}
+#festlvalList .list{
+	border-radius: 1em;
+	width:260px;
+	height:310px;
+
+}
+#festlvalList .list_img{
+	width:260px;
+	height:200px;
+	border-radius: 1em;
+}
+#festlvalList .list_detail{
+	width:auto;
+	height:auto;
+	padding: 10px 20px;
+	
+}
+#festlvalList .detail{
+	color:#2F4F4F;
+	text-overflow:ellipsis;
+	font-size: 1em;
+	white-space:nowrap; 
+	overflow:hidden; 
+	margin: 5px 0;
+}
+#festlvalList h3{
+	margin: 5px 0;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+#festlvalList .list a{
+	text-decoration: none;
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	
+}
+#festlvalList .list_detail .detail i{
+	color: #f00;
+	cursor: pointer;
+	margin-left: 40px;
+}

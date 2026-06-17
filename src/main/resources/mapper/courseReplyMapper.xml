@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.mini.dao.CourseReplyDAO">
+	<!-- 댓글등록 -->
+	<insert id="replyInsert">
+		insert into reply_course (news_no, userid, comments)
+		values(${news_no}, #{userid}, #{comments})
+	</insert>
+	<!-- 댓글목록 -->
+	<select id="replySelectList" resultType="com.ict.mini.vo.CourseReplyVO">
+		select reply_no, userid, comments, writedate
+		from reply_course
+		where news_no=${param1}
+		order by reply_no asc
+	</select>
+	<!-- 댓글수정 -->
+	<update id="replyUpdate">
+		update reply_course set comments=#{comments}
+		where reply_no=${reply_no} and userid=#{userid}
+	</update>
+	<!-- 댓글삭제 -->
+	<delete id="replyDelete">
+		delete from reply_course
+		where reply_no=${param1} and userid=#{param2}
+	</delete>
+	
+</mapper>

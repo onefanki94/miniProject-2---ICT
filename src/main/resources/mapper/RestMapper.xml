@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC	 " -//mybatis.org//DTD Mapper 3.0 //EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.mini.dao.RestDAO">
+<select id="getRestByCategory" parameterType="String" resultType="com.ict.mini.vo.RestVO">
+        select rest_code, imageurl, category, store_name from restaurant where category = #{category}
+</select>
+
+<select id="getRestViewByCode" parameterType="int" resultType="com.ict.mini.vo.RestVO">
+    SELECT rest_code, store_name, addr, explanation, tel, opentime, rest, Rep_menu AS repMenu, menu1 ,category, imageurl,imageurl1,imageurl2,imageurl3, hit,likes
+    FROM restaurant 
+    WHERE rest_code = #{rest_code}
+</select>
+<select id="restAllSelect" resultType="com.ict.mini.vo.RestVO">
+	select rest_code,store_name,imageurl,addr from restaurant
+</select>
+<select id="restAddrSelect" resultType="com.ict.mini.vo.RestVO">
+	select rest_code, store_name, addr, imageurl from restaurant where substring(addr,7) like concat(#{param1}, '%');
+</select>
+<select id="restTop3" resultType="com.ict.mini.vo.RestVO">
+	select rest_code, store_name, addr, imageurl from restaurant order by likes desc LIMIT 4
+</select>
+<select id="getKakaoMap" parameterType="int" resultType="com.ict.mini.vo.RestVO">
+	select rest_code, store_name, X_point, Y_point, addr from restaurant where rest_code = #{rest_code}
+</select>
+<select id="getSimilarRestaurant" resultType="com.ict.mini.vo.RestVO">
+	select rest_code, store_name, imageurl from restaurant where category = (select category from restaurant where rest_code = #{rest_code} ) and rest_code != #{rest_code} order by rand() limit 9
+</select>
+<select id="getReviewSelect" resultType="com.ict.mini.vo.RestReviewVO">
+		select rest_code, review_no, userid, contents, writedate from review_restaurant where rest_code=#{rest_code} order by review_no asc
+</select>
+
+<insert id="addLike">
+        insert into likes_restaurant (userid, rest_code) values (#{userid}, #{rest_code})
+</insert>
+<delete id="removeLike">
+        delete from likes_restaurant where userid = #{userid} and rest_code = #{rest_code}
+</delete>
+<select id="checkIfUserLiked" resultType="boolean">
+    select count(*) from likes_restaurant where userid = #{userid} and rest_code = #{rest_code}
+</select>
+<select id="getLikeCount" resultType="int">
+	select count(*) from likes_restaurant where rest_code = #{rest_code}
+</select>
+
+ <select id="getUserLikedRestCodes" resultType="int">
+    select r.rest_code, r.store_name, r.likes from likes_restaurant lr inner join restaurant r on lr.rest_code = r.rest_code where lr.userid = #{param1} 
+</select>
+
+<select id="selectLikeCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM likes_restaurant WHERE rest_code = #{rest_code} AND likes = 1
+        </select>
+<select id="checkListStatus" parameterType="map" resultType="com.ict.mini.vo.LikeVO">
+        SELECT * FROM likes_restaurant WHERE userid = #{userid} AND rest_code = #{rest_code}
+ </select>
+ <select id="getUserLikes" parameterType="string" resultType="com.ict.mini.vo.LikeVO">
+      SELECT * FROM likes_restaurant WHERE userid = #{userid}
+</select>
+    
+ <select id="getPopularRestaurants" resultType="com.ict.mini.vo.RestVO">
+        SELECT * 
+        FROM restaurant
+        ORDER BY rest_code DESC
+        LIMIT 4
+    </select>
+    
+    
+    <delete id="restDel">
+    	delete from restaurant where rest_code=${param1}
+    </delete>
+    
+    
+    
+    <delete id="delRlist" parameterType="list">
+    	delete from restaurant 
+    	where rest_code in
+	    <foreach item="DelRlist" collection="list" open="(" separator="," close=")">
+	        #{DelRlist}
+	    </foreach>
+    
+    </delete>
+    
+    <select id="totalrest" resultType="int">
+    	select count(rest_code)from restaurant
+    </select>
+    
+<select id="restAllSelectpaging" resultType="com.ict.mini.vo.RestVO">
+	select rest_code,store_name,imageurl,addr,opentime,hit,rest,likes from restaurant LIMIT #{offset}, #{onePageRecord};
+</select>
+
+<select id="getLikedRestaurants"  resultType="com.ict.mini.vo.RestVO">
+        SELECT * FROM restaurant 
+        WHERE rest_code IN (
+            SELECT rest_code FROM likes_restaurant WHERE userid = #{userid}
+        )
+</select>
+    <insert id="addReview">
+	insert into review_restaurant (rest_code, rating, contents, userid, writedate) values (#{rest_code},#{rating},#{contents}, #{userid}, now())
+	</insert>
+	<update id="reviewEdit">
+		update review_restaurant set contents=#{contents} where (userid=#{userid} or userid= 'root') and review_no=${review_no} 
+	</update>
+
+	<delete id="reviewDel">
+		delete from review_restaurant where review_no = #{review_no} 
+	</delete>
+	
+
+	<select id="getAverageRating" parameterType="int" resultType="java.lang.Double">
+		select round(avg(rating),1) from review_restaurant where rest_code = ${rest_code}
+	</select>
+	
+	
+
+<update id="incrementLikeCount">
+        update restaurant set likes = likes + 1 where rest_code = #{rest_code}
+    </update>
+    <update id="decrementLikeCount">
+        update restaurant set likes = likes - 1 where rest_code = #{rest_code}
+    </update>
+    <select id="getReviewByNo" parameterType="int" resultType="com.ict.mini.vo.RestReviewVO">
+    		select review_no, userid, rest_code, contents from review_restaurant where review_no = #{review_no}
+    </select>
+</mapper>
+
+  
+

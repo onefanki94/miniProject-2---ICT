@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.mini.dao.SearchDAO">
+	<select id="searchFestivals" resultType="com.ict.mini.vo.FestivalVO">
+        select no, title, addr, start_date, end_date, poster
+        from festival_tbl
+        where addrdetails like concat('%', #{searchWord}, '%')
+        limit ${size} offset ${offset2} 
+    </select>
+	<select id="searchFoods" resultType="com.ict.mini.vo.RestVO">
+		SELECT rest_code, store_name, addr, imageurl
+		FROM restaurant
+		WHERE addr LIKE CONCAT('%', #{searchWord}, '%')
+		limit ${size} offset ${offset2} 
+	</select>
+	<select id="searchCourses" resultType="com.ict.mini.vo.CourseVO">
+		SELECT news_no, subject, content,thumb
+		FROM course
+		WHERE subject LIKE CONCAT('%', #{searchWord}, '%')
+		limit ${size} offset ${offset2} 
+	</select>
+	<select id="countFestivals" resultType="int">
+		select count(no)
+		from festival_tbl
+		where addrdetails like concat('%', #{searchWord}, '%')
+	</select>
+	<select id="countFoods" resultType="int">
+		select count(rest_code)
+		from restaurant
+		where addr like concat('%', #{searchWord}, '%')
+	</select>
+	<select id="countCourses" resultType="int">
+		select count(news_no)
+		from course
+		where subject like concat('%', #{searchWord}, '%')
+	</select>
+</mapper>
